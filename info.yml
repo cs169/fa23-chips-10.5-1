@@ -1,0 +1,20 @@
+project:
+  name: 'CS169-fa23-01'
+  owner: 'fa23'
+  teamId: '01'
+  identities: {}
+  notifications:
+    email: 'ujjwal@berkeley.edu'
+  members:
+    member1:
+      name: 'Ujjwal'
+      surname: 'Krishnamurthi' 
+      githubUsername: 'kujjwal'
+    member2:
+      name: 'Zwea'
+      surname: 'Htet' 
+      githubUsername: 'zweahtet'
+    member3:
+      name: 'Alex'
+      surname: 'Angulo Rios' 
+      githubUsername: 'Alex-A-Rios'

@@ -1,5 +1,7 @@
 # Actionmap
 
+![](https://github.com///actions/workflows//badge.svg)
+
 <div style="text-align: center;">
 
 Actionmap is an app that allows users to learn more about their representatives,
