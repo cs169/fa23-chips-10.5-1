@@ -13,9 +13,7 @@ describe Representative do
     end
 
     it 'creates a new rep if one does not exist' do
-      expect do
-        described_class.civic_api_to_representative_params(rep_info)
-      end.to change(described_class, :count).by(1)
+      expect { described_class.civic_api_to_representative_params(rep_info) }.to change(described_class, :count).by(1)
       rep = described_class.last
       expect(rep.name).to eq('John Doe')
       expect(rep.title).to eq('Office')
