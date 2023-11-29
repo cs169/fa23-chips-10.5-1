@@ -17,11 +17,11 @@ class Representative < ApplicationRecord
         end
       end
       
-      civic_address = official.address[0]
-      formatted_address = civic_address.line1 + ", " + civic_address.city + ", " + civic_address.state + " " + civic_address.zip
+      #civic_address = official.address[0]
+      #formatted_address = civic_address.line1 + ", " + civic_address.city + ", " + civic_address.state + " " + civic_address.zip
 
-      rep = Representative.find_or_create_by({ name: official.name, ocdid: ocdid_temp, title: title_temp,  
-                                  address: formatted_address, party: official.party, photo: official.photo_url})
+      rep = Representative.find_or_create_by({ name: official.name, ocdid: ocdid_temp, title: title_temp })
+                                  # address: formatted_address, party: official.party, photo: official.photo_url})
       reps.push(rep)
     end
 
