@@ -11,8 +11,8 @@ class SearchController < ApplicationController
       result = service.representative_info_by_address(address: address)
       @representatives = Representative.civic_api_to_representative_params(result)
       render 'representatives/search'
-    rescue => e 
-      flash[:notice] = "Please input a valid address"
+    rescue StandardError
+      flash[:notice] = 'Please input a valid address'
       @representatives = []
       render 'representatives/index'
     end
