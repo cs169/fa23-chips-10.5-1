@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require 'spec_helper'
 
 describe RepresentativesController, type: :controller do
   describe 'show' do
     let(:representative) { instance_double(Representative, id: 1, address: '123 Main St') }
+
     before do
       allow(Representative).to receive(:find).with(representative.id.to_s).and_return(representative)
     end
