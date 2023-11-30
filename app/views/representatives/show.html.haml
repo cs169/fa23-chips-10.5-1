@@ -1,19 +1,19 @@
 .container-fluid.mt-5
-  .row
-    .col-md-8.offset-md-2
-      .card
-        .card-body
-          %h2.text-center= @representative.name
-          %h5.text-center Title: #{@representative.title}
-          %h5.text-center Party: #{@representative.party}
-          .text-center.mt-3
-            - if @representative.photo.present?
-              %img{ src: @representative.photo, alt: @representative.name }
-            - else 
-              %img{ src: "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg" }
-          %hr
-          %h3.text-center Address
-          %p.text-center= @address
+    .row
+        .col-md-8.offset-md-2
+            .card
+                .card-body
+                    %h2.text-center= @representative.name
+                    %h5.text-center Title: #{@representative.title}
+                    %h5.text-center Party: #{@representative.party}
+                    .text-center.mt-3
+                        - if @representative.photo.present?
+                            %img{ src: @representative.photo, alt: @representative.name }
+                        - else
+                            %img{ src: 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg' }
+                    %hr
+                    %h3.text-center Address
+                    %p.text-center= @address
 
-          .text-center.mt-3
-            = link_to 'Back', representatives_path, class: 'btn btn-secondary'
+                    .text-center.mt-3
+                        = link_to 'Back', representatives_path, class: 'btn btn-secondary'

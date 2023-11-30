@@ -21,7 +21,8 @@ class MapController < ApplicationController
     handle_state_not_found && return if @state.nil?
 
     @county = get_requested_county @state.id
-    handle_county_not_found && return if @state.nil?
+    # handle_county_not_found && return if @state.nil?
+    handle_county_not_found && return if @county.nil?
 
     @county_details = @state.counties.index_by(&:std_fips_code)
 
@@ -30,7 +31,6 @@ class MapController < ApplicationController
     service.key = Rails.application.credentials.dig(:production, :GOOGLE_API_KEY)
     result = service.representative_info_by_address(address: address)
     @representatives = Representative.civic_api_to_representative_params(result)
-
   end
 
   private
