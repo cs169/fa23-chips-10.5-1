@@ -5,13 +5,10 @@ class RepresentativesController < ApplicationController
     @representatives = Representative.all
   end
 
-  def show 
+  def show
     @representative = Representative.find(
       params[:id]
     )
     @address = @representative.address
-    # address_components = [
-    #   @address[:city]
-    # ]
-  end 
+  end
 end
