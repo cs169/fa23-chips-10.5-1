@@ -16,8 +16,18 @@ class Representative < ApplicationRecord
           ocdid_temp = office.division_id
         end
       end
+      
+      formatted_address = "No address found"
+      if !official.address.nil?
+        civic_address = official.address[0]
+        formatted_address = civic_address.line1 + ", " + civic_address.city + ", " + civic_address.state + " " + civic_address.zip
+      end
+      #civic_address = official.address[0]
+      #formatted_address = civic_address.line1 + ", " + civic_address.city + ", " + civic_address.state + " " + civic_address.zip
 
-      rep = Representative.find_or_create_by({ name: official.name, ocdid: ocdid_temp, title: title_temp })
+      rep = Representative.find_or_create_by({ name: official.name, ocdid: ocdid_temp, title: title_temp, 
+                                    photo: official.photo_url, party: official.party, address: formatted_address })
+                                  # address: formatted_address, party: official.party, photo: official.photo_url})
       reps.push(rep)
     end
 
