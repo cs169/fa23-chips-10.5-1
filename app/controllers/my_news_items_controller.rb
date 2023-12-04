@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'news-api'
+require 'open-uri'
 
 class MyNewsItemsController < SessionController
   before_action :set_representative
@@ -9,27 +9,27 @@ class MyNewsItemsController < SessionController
   def new
     @news_item = NewsItem.new
 
+    @issues = NewsItem::ISSUES
+
     @representative = Representative.find(params[:representative_id])
+    @issue = NewsItem::ISSUES[params[:issue_id].to_i - 1]
 
-    # @representatives = Representative.all
-    # @issues = NewsItem::ISSUES
-
-    newsapi = News.new(Rails.application.credentials.dig(:production, :GOOGLE_NEWS_API_KEY)) 
-    response = newsapi.get_everything(q: "#{@representative.name} #{@issue}", sources: 'bbc-news,google-news', language: 'en', pageSize: 5)
+    # uri = URI('https://newsapi.org/v2/everything')
+    # params = {
+    #   q: "#{@representative.name} #{@issue}",
+    #   sources: 'bbc-news,the-verge',
+    #   language: 'en',
+    #   apiKey: Rails.application.credentials.dig(:production, :GOOGLE_NEWS_API_KEY),
+    #   pageSize: 5
+    # }
+    url = "https://newsapi.org/v2/everything?q=#{URI.encode(@representative.name + ' AND ' + @issue)}&sortBy=popularity&apiKey=#{Rails.application.credentials.dig(:production, :GOOGLE_NEWS_API_KEY)}&pageSize=5"
     
-    # Check if the request was successful
-    # if response.status == 'ok'
-    #   # These will be used in the view to build the radio buttons
-    #   @articles = response.articles
-    # else
-    #   # If the request was not successful, you might want to redirect the user back to the form and display an error message
-    #   redirect_to new_representative_my_news_item_path(@representative), alert: 'There was an error fetching the news articles. Please try again.'
-    # end
-    puts response 
-    if response.empty?
+    begin
+      response = open(url).read
+      result = JSON.parse(response)
+      @articles = result['articles']
+    rescue OpenURI::HTTPError => e
       redirect_to representative_search_my_news_item_path(@representative), alert: 'There was an error fetching the news articles. Please try again.'
-    else
-      @articles = response
     end
   end
 
