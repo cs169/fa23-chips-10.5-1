@@ -13,4 +13,6 @@ class NewsItem < ApplicationRecord
       representative_id: representative_id
     )
   end
+
+  
 end

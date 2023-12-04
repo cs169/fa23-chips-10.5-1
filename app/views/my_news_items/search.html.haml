@@ -1,22 +1,12 @@
-.row.mt-2
-    .col-12.col-md-6.offset-md-3.col-xl-4.offset-xl-4
-        %h1.text-center Edit news article
-
-    .col-12.col-md-6.offset-md-3.col-xl-4.offset-xl-4
-        = form_tag search_my_news_item_path, method: :get do
-            .form-group-row
-                .col-md-4
-                    %label.col-form-label
-                        Representative
-                .col-md-6
-                    = select_tag :representative_id, options_for_select(@representatives_list)
-            
-            .form-group-row
-                .col-md-4
-                    %label.col-form-label
-                        Issues
-                .col-md-6
-                    = select_tag :issue, options_for_select(@issues)
-
-            .actions
-                = submit_tag 'Search', class: 'btn btn-primary'
+.container-fluid.py-5
+  .row
+    .col-md-8.offset-md-2
+      %h1.text-center Select Representative and Issue
+      = form_with url: representative_search_my_news_item_path, method: :post do |f|
+        .form-group
+          = f.label :representative_id, 'Representative'
+          = f.collection_select :representative_id, @representatives, :id, :name, prompt: 'Select a Representative'
+        .form-group
+          = f.label :issue_id, 'Issue'
+          = f.collection_select :issue_id, @issues, :id, :name, prompt: 'Select an Issue'
+        = f.submit 'Search', class: 'btn btn-primary'

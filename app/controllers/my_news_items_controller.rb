@@ -7,12 +7,30 @@ class MyNewsItemsController < SessionController
   before_action :set_news_item, only: %i[edit update destroy]
 
   def new
-    @representative = Representative.find(params[:representative_id])
-    @issue = params[:issue]
     @news_item = NewsItem.new
 
-    newsapi = News.new(Rails.application.credentials.dig(:production, :NEWS_API_KEY)) 
-    @articles = newsapi.get_everything(q: @representative.name, sources: 'bbc-news,google-news', language: 'en', country: 'us', sortBy: 'relevancy', pageSize: 5)
+    @representative = Representative.find(params[:representative_id])
+
+    # @representatives = Representative.all
+    # @issues = NewsItem::ISSUES
+
+    newsapi = News.new(Rails.application.credentials.dig(:production, :GOOGLE_NEWS_API_KEY)) 
+    response = newsapi.get_everything(q: "#{@representative.name} #{@issue}", sources: 'bbc-news,google-news', language: 'en', pageSize: 5)
+    
+    # Check if the request was successful
+    # if response.status == 'ok'
+    #   # These will be used in the view to build the radio buttons
+    #   @articles = response.articles
+    # else
+    #   # If the request was not successful, you might want to redirect the user back to the form and display an error message
+    #   redirect_to new_representative_my_news_item_path(@representative), alert: 'There was an error fetching the news articles. Please try again.'
+    # end
+    puts response 
+    if response.empty?
+      redirect_to representative_search_my_news_item_path(@representative), alert: 'There was an error fetching the news articles. Please try again.'
+    else
+      @articles = response
+    end
   end
 
   def edit; end
@@ -42,11 +60,15 @@ class MyNewsItemsController < SessionController
                 notice: 'News was successfully destroyed.'
   end
 
-  def search_my_news_item
-    @representatives_list = Representative.all.map { |r| [r.name, r.id] }
-    @issues = NewsItem::ISSUES
-
-    redirect_to representative_new_my_news_item_path(@representative)
+  def search
+    if request.get?
+      @representatives = Representative.all
+      @issues = NewsItem::ISSUES.map.with_index(1) do |issue, index|
+        OpenStruct.new(id: index, name: issue)
+      end
+    elsif request.post?
+      redirect_to representative_new_my_news_item_path(representative_id: params[:representative_id], issue_id: params[:issue_id])
+    end
   end
 
   private
