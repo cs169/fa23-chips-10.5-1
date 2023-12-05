@@ -1,0 +1,12 @@
+.container-fluid.py-5
+  .row
+    .col-md-8.offset-md-2
+      %h1.text-center Select Representative and Issue
+      = form_with url: representative_search_my_news_item_path, method: :post do |f|
+        .form-group
+          = f.label :representative_id, 'Representative'
+          = f.collection_select :representative_id, @representatives, :id, :name, prompt: 'Select a Representative'
+        .form-group
+          = f.label :issue_id, 'Issue'
+          = f.collection_select :issue_id, @issues, :id, :name, prompt: 'Select an Issue'
+        = f.submit 'Search', class: 'btn btn-primary'

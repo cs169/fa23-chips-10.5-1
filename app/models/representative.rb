@@ -28,11 +28,12 @@ class Representative < ApplicationRecord
                   photo: official.photo_url, party: official.party, address: formatted_address }
 
       existing_rep = Representative.find_or_initialize_by(name: official.name)
-      rep = if existing_rep.persisted?
-              existing_rep.update(rep_data)
-            else
-              Representative.create(rep_data)
-            end
+      if existing_rep.persisted?
+        existing_rep.update(rep_data)
+        rep = existing_rep
+      else
+        rep = Representative.create(rep_data)
+      end
       reps.push(rep)
     end
     reps
