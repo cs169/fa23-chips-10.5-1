@@ -7,10 +7,17 @@
                 - news_item.errors.full_messages.each do |message|
                     %li= message
     .form-group.row
-        .col-sm-2
-            = label :news_item, :representative, 'Representative:',  class: 'col-form-label'
         .col-sm-10
-            = @representative.name
+            = label :news_item, :representative, 'Representative: ' + @search_rep.name,  class: 'col-form-label'
+    
+    .form-group.row
+        .col-sm-10
+            = label :news_item, :issue, 'Issue: ' + @issue,  class: 'col-form-label'
+
+    .form-group.row
+        .col-sm-10
+            = label :news_item, :issue, 'Select an Article:',  class: 'col-form-label'
+
     - @articles.each_with_index do |article, index|
         .form-group.row
             .col-sm-10

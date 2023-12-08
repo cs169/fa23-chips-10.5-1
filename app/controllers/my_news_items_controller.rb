@@ -9,10 +9,12 @@ class MyNewsItemsController < SessionController
   def new
     @news_item = NewsItem.new
 
+    @ratings = [1, 2, 3, 4, 5]
     @issues = NewsItem::ISSUES
 
     @representative = Representative.find(params[:representative_id])
     @issue = NewsItem::ISSUES[params[:issue_id].to_i - 1]
+    @search_rep = Representative.find(params[:search_id])
 
     # uri = URI('https://newsapi.org/v2/everything')
     # params = {
@@ -22,7 +24,7 @@ class MyNewsItemsController < SessionController
     #   apiKey: Rails.application.credentials.dig(:production, :GOOGLE_NEWS_API_KEY),
     #   pageSize: 5
     # }
-    url = "https://newsapi.org/v2/everything?q=#{URI.encode(@representative.name + ' AND ' + @issue)}&sortBy=popularity&apiKey=#{Rails.application.credentials.dig(:production, :GOOGLE_NEWS_API_KEY)}&pageSize=5"
+    url = "https://newsapi.org/v2/everything?q=#{URI.encode(@search_rep.name + ' AND ' + @issue)}&sortBy=popularity&apiKey=#{Rails.application.credentials.dig(:production, :GOOGLE_NEWS_API_KEY)}&pageSize=5"
     
     begin
       response = open(url).read
@@ -67,7 +69,7 @@ class MyNewsItemsController < SessionController
         OpenStruct.new(id: index, name: issue)
       end
     elsif request.post?
-      redirect_to representative_new_my_news_item_path(representative_id: params[:representative_id], issue_id: params[:issue_id])
+      redirect_to representative_new_my_news_item_path(representative_id: params[:representative_id], issue_id: params[:issue_id], search_id: params[:reps_id])
     end
   end
 
