@@ -8,25 +8,20 @@
                     %li= message
     .form-group.row
         .col-sm-2
-            = label :news_item, :title, 'Title:', class: 'col-form-label'
+            = label :news_item, :representative, 'Representative:',  class: 'col-form-label'
         .col-sm-10
-            = text_field :news_item, :title, { class: 'form-control', placeholder: 'Brief title of article...' }
-    .form-group.row
-        .col-sm-2
-            = label :news_item, :link, 'Link', class: 'col-form-label'
-        .col-sm-10
-            = text_field :news_item, :link, { class: 'form-control', placeholder: 'Link to external article...' }
-    .form-group.row
-        .col-sm-2
-            = label :news_item, :description, class: 'col-form-label'
-        .col-sm-10
-            = text_area :news_item, :description, { class: 'form-control',
-            placeholder: 'Describe the contents of the article...' }
-    .form-group.row
-        .col-sm-2
-            = label :news_item, :representative_id, class: 'col-form-label'
-        .col-sm-10
-            = select :news_item, :representative_id, representatives_list, { include_blank: true },
-            class: 'form-control'
+            = @representative.name
+    - @articles.each_with_index do |article, index|
+        .form-group.row
+            .col-sm-10
+                = f.radio_button :link, article['url'], id: "article_#{index}"
+                %br/
+                = label "article_#{index}", "Title: #{article['title']}"
+                %br/
+                = label "article_#{index}", "Link: "
+                = link_to article['url'], article['url'], target: "_blank"
+                %br/
+                = label "article_#{index}", "Description: #{article['description']}"
+                %br/
     .actions
         = f.submit 'Save', class: 'btn btn-primary'
