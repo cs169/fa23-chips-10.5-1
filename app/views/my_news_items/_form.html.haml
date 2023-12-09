@@ -21,14 +21,17 @@
     - @articles.each_with_index do |article, index|
         .form-group.row
             .col-sm-10
-                = f.radio_button :index, { title: article['title'], link: article['url'], description: article['description'] }, id: "article_#{index}"
+                = f.radio_button :link, article['url'], id: "article_#{index}"
                 %br/
                 = label "article_#{index}", "Title: #{article['title']}"
+                = f.hidden_field :title, value: article['title']
                 %br/
                 = label "article_#{index}", "Link: "
                 = link_to article['url'], article['url'], target: "_blank"
+                = f.hidden_field :link, value: article['url']
                 %br/
                 = label "article_#{index}", "Description: #{article['description']}"
+                = f.hidden_field :description, value: article['description']
                 %br/
     .form-group.row
         .col-sm-10
